@@ -4,7 +4,7 @@ import threading
 import app
 
 class RoomManager:
-    '''A class that will run and manage all the play room'''
+    ''' A class that will run and manage all the play room '''
 
     def __init__(self, tManager):
         self.TextManager = tManager
@@ -25,4 +25,13 @@ class RoomManager:
         pass
 
     def getCurrentRooms(self):
+        pass
+
+    def close(self):
+        pass
+        print('Room Manager Shutdown')
+
+class Room:
+
+    def __init__(self):
         pass

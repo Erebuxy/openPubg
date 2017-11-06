@@ -13,7 +13,10 @@ class openPubgShell(cmd.Cmd):
     file = None
 
     def setRoomManager(self, rManager):
-        self.roomManger = rManager
+        self.roomManager = rManager
+
+    def setTextManager(self, tManager):
+        self.textManager = tManager
 
     def do_echo(self, arg):
         ''' Echo '''
@@ -28,4 +31,6 @@ class openPubgShell(cmd.Cmd):
         pass
 
     def do_quit(self, arg):
+        self.roomManager.close()
+        self.textManager.close()
         return True
