@@ -2,15 +2,11 @@ class App(object):
 
     name = 'AppName'
 
-    __textManager = None
+    textManager = None
     playerList = []
 
-    def __init__(self):
-        pass
-
-    def setTextManager(self, tManager):
-        ''' Set teh text manager '''
-        self.__textManager = tManager
+    def __init__(self, tManager):
+        self.textManager = tManager
 
     def help(self):
         ''' Print the help message '''

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import logging
 import os
 import sys
 import threading
@@ -7,17 +8,22 @@ import threading
 from openPubgShell import openPubgShell
 from roomManager import RoomManager
 from textManager import TextManager
+from playerManager import PlayerManager
 
 
 def main():
+
     # Initiate the text manager
     tManager = TextManager()
     if not tManager.emailLogin():
         return
+    # Initiate the player manager
+    pManager = PlayerManager()
     # Initiate the room manager
-    rManager = RoomManager(tManager)
-    # Pass the room manager to text manager
+    rManager = RoomManager(tManager, pManager)
+    # Pass the room manager and player manager to text manager
     tManager.setRoomManager(rManager)
+    tManager.setPlayerManager(pManager)
 
     # Initiate shell
     shell = openPubgShell()
