@@ -23,13 +23,12 @@ class openPubgShell(cmd.Cmd):
         ''' Echo '''
         print(arg)
 
-    def do_list(self):
+    def do_list(self, arg):
         ''' List all current rooms '''
-        pass
-
-    def do_stop(self, arg):
-        ''' Stop a current room '''
-        pass
+        l = self.roomManager.getCurrentRooms()
+        print('%d rooms running' %(len(l)))
+        for i in l:
+            print(i)
 
     def do_send(self, arg):
         ''' Send message to user '''

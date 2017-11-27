@@ -21,8 +21,6 @@ except ImportError:
 
 LOCK = threading.Lock()
 
-#logging.basicConfig(level=logging.INFO)
-
 SCOPES = 'https://mail.google.com/'
 CLIENT_SECRET_FILE = './client_secret.json'
 APPLICATION_NAME = 'openPubg'
@@ -194,6 +192,9 @@ class TextManager:
                 # If player want to join a game
                 elif sMsg[0] == 'join':
                     self.__do_join(sender, sMsg)
+                # If player wants to quit the game
+                elif sMsg[0] == 'quit':
+                    self._do_quit(sender)
                 # If command unknown
                 else:
                     self.sendMessage(sender, 'Command unknown')
@@ -298,6 +299,12 @@ class TextManager:
         res, msg = self.roomManager.addPlayer(sender, sMsg[1])
         if not res:
             self.sendMessage(sender, msg)
+
+    def _do_quit(self, sender):
+        '''Handle quitting the game'''
+        roomId = self.playerManager.getRoomId(sender)
+        res, msg = self.roomManager.removePlayer(sender, roomId)
+        self.sendMessage(sender, msg)
 
 def getSender(message):
     ''' Get the sender of a message '''

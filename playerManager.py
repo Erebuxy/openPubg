@@ -49,9 +49,3 @@ class PlayerManager:
     def havePlayer(self, id):
         ''' Check whether a player in the dictionary '''
         return (id in self.mainDict)
-
-    def saveData(self):
-        pass
-
-    def loadData(self):
-        pass

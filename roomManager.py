@@ -31,35 +31,50 @@ class RoomManager:
         ''' Add a player to a room '''
         if self.playerManager.getRoomId(id) is not None:
             return False, 'Player is currently in a game room'
-        if roomId in self.roomDict:
-            res, msg = self.roomDict[roomId].addPlayer(id)
-            if res:
-                self.playerManager.setRoomId(id, roomId)
-                return True, ''
-            else:
-                return False, msg
+        if roomId not in self.roomDict:
+            return False, 'Invalid room ID'
+        res, msg = self.roomDict[roomId].addPlayer(id)
+        if res:
+            self.playerManager.setRoomId(id, roomId)
+            return True, ''
+        else:
+            return False, msg
+
+    def removePlayer(self, id, roomId):
+        ''' Remove a player from his/her current room '''
+        if roomId is None:
+            return False, 'User is not in any room currently'
+        if roomId not in self.roomDict:
+            return False, 'Invalid room ID'
+        if self.roomDict[roomId].isRuning():
+            return False, 'Can\'t leave the room while game is running'
+
+        self.roomDict[roomId].playerList.remove(id)
+        self.playerManager.setRoomId(id, None)
+
+        return True, 'You have been removed from the room'
+
 
     def startRoom(self, roomId):
         ''' Start a room '''
         if roomId not in self.roomDict:
             return False, 'Invalid room ID'
-        if self.roomDict[roomId].__running:
+        if self.roomDict[roomId].isRunning():
             return False, 'The current game is running'
-        
+
         self.roomDict[roomId].start()
+        del self.roomDict[roomId]
         return True, ''
 
-    def removePlayer(self, id, roomId):
-        pass
-
-    def stopRoom(self, roomId):
-        pass
-
     def getCurrentRooms(self):
-        pass
+        ''' Return all the current room '''
+        l = []
+        for i in self.roomDict:
+            l.append((i, self.roomDict[i].name))
+
+        return l
 
     def close(self):
-        pass
         print('Room Manager Shutdown')
 
 class Room:
