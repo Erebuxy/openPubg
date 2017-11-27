@@ -24,6 +24,10 @@ class RoomManager:
             self.current_number += 1
             self.roomDict[self.current_number] = app.TicTacToe(self.textManager)
             return self.current_number
+        elif gameName == 'pigdice':
+            self.current_number += 1
+            self.roomDict[self.current_number] = app.PigDice(self.textManager)
+            return self.current_number
 
         return -1
 
@@ -36,7 +40,7 @@ class RoomManager:
         res, msg = self.roomDict[roomId].addPlayer(id)
         if res:
             self.playerManager.setRoomId(id, roomId)
-            return True, ''
+            return True, ('Joined room %d' %roomId)
         else:
             return False, msg
 
@@ -46,11 +50,14 @@ class RoomManager:
             return False, 'User is not in any room currently'
         if roomId not in self.roomDict:
             return False, 'Invalid room ID'
-        if self.roomDict[roomId].isRuning():
+        if self.roomDict[roomId].isRunning():
             return False, 'Can\'t leave the room while game is running'
 
         self.roomDict[roomId].playerList.remove(id)
         self.playerManager.setRoomId(id, None)
+
+        if len(self.roomDict[roomId].playerList) == 0:
+            del self.roomDict[roomId]
 
         return True, 'You have been removed from the room'
 
@@ -63,7 +70,6 @@ class RoomManager:
             return False, 'The current game is running'
 
         self.roomDict[roomId].start()
-        del self.roomDict[roomId]
         return True, ''
 
     def getCurrentRooms(self):
@@ -75,9 +81,5 @@ class RoomManager:
         return l
 
     def close(self):
+        ''' Prepare to close the room manager '''
         print('Room Manager Shutdown')
-
-class Room:
-
-    def __init__(self):
-        pass

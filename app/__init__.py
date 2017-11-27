@@ -5,3 +5,4 @@ import os
 
 from app.appClass import App
 from app.tictactoe import TicTacToe
+from app.pigdice import PigDice

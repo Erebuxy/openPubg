@@ -9,7 +9,6 @@ class Player:
         self.task = None
         self.roomId = None
 
-
 class PlayerManager:
     '''A class that will store and manager all the user profile'''
 

@@ -6,10 +6,10 @@ from app.tictactoe.board import Board, HUMAN, COMPUTER
 class TicTacToe(App):
 
     name = 'TicTacToe'
-    playerList = []
 
     def __init__(self, tManager):
         self.textManager = tManager
+        self.playerList = []
         self.__running = False
 
     def help(self):

@@ -30,7 +30,7 @@ REMOVE_UNREAD = {'removeLabelIds': ['UNREAD'], 'addLabelIds': []}
 class TextManager:
     ''' A class that will send, recieve and manage all the text message '''
 
-    def __init__(self, worker=4, checkInterval=3):
+    def __init__(self, worker=5, checkInterval=3):
 
         # Room Manager
         self.roomManager = None
@@ -202,8 +202,7 @@ class TextManager:
             # If task is rename new player
             elif task['name'] == 'namePlayer':
                 self.playerManager.setName(sender, msg)
-                self.sendMessage(sender, 'Hi %s. You can change it'\
-                                         ' by replying rename <name>' %(msg))
+                self.sendMessage(sender, 'Nice to meet you, %s.' %(msg))
                 if task['value'] != None:
                     self.__q.put_nowait(task['value'])
             # If task is vote
@@ -296,9 +295,8 @@ class TextManager:
 
     def __do_join(self, sender, sMsg):
         ''' Handle joining a room '''
-        res, msg = self.roomManager.addPlayer(sender, sMsg[1])
-        if not res:
-            self.sendMessage(sender, msg)
+        res, msg = self.roomManager.addPlayer(sender, int(sMsg[1]))
+        self.sendMessage(sender, msg)
 
     def _do_quit(self, sender):
         '''Handle quitting the game'''

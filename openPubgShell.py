@@ -28,7 +28,7 @@ class openPubgShell(cmd.Cmd):
         l = self.roomManager.getCurrentRooms()
         print('%d rooms running' %(len(l)))
         for i in l:
-            print(i)
+            print(i[0], i[1])
 
     def do_send(self, arg):
         ''' Send message to user '''
