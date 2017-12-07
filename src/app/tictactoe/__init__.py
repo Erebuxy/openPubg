@@ -20,15 +20,12 @@ class TicTacToe(App):
         ''' Return whether the program is running '''
         return self.__running
 
-    def start(self):
+    def _start(self):
         '''
         Run the app
         This method will execute the main logic of the app, including sending
         and receiving message through api and checking whether app should end
         '''
-        if self.__running:
-            Return
-        self.__running = True
 
         # Send the basic information to the user and ask who start first
         msg = ' -------------------------------------\n'\
@@ -44,7 +41,7 @@ class TicTacToe(App):
               'Choose who should start the game first?\n'\
               '              1) You\n'\
               '              2) Super Computer\n'\
-              '              0) Exit game, but return later'
+              '              0) Exit game'
         self.textManager.sendMessage(self.playerList[0], msg)
         number = self.textManager.doQA(self.playerList[0], '', ['1', '2', '0'])
 
@@ -105,8 +102,6 @@ class TicTacToe(App):
             self.textManager.sendMessage(self.playerList[0], 'You win!')
         else:
             self.textManager.sendMessage(self.playerList[0], 'Draw.')
-
-        self.__running = False
 
     def canStart(self):
         ''' Check whether the app can start not '''

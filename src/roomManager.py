@@ -14,19 +14,15 @@ class RoomManager:
 
         self.roomDict = {}
 
-    def createRoom(self, gameName):
+    def createRoom(self, appName):
         '''
         Create a room for given game type and return the room number.
         Return -1 if the given game doesn't exist
         '''
 
-        if gameName == 'tictactoe':
+        if app.haveApp(appName):
             self.current_number += 1
-            self.roomDict[self.current_number] = app.TicTacToe(self.textManager)
-            return self.current_number
-        elif gameName == 'pigdice':
-            self.current_number += 1
-            self.roomDict[self.current_number] = app.PigDice(self.textManager)
+            self.roomDict[self.current_number] = app.createApp(appName, self.textManager)
             return self.current_number
 
         return -1
@@ -34,7 +30,8 @@ class RoomManager:
     def addPlayer(self, id, roomId):
         ''' Add a player to a room '''
         if self.playerManager.getRoomId(id) is not None:
-            return False, 'Player is currently in a game room'
+            return False, 'Player is currently in another game room. Please '\
+                          'leave the room before joinning.'
         if roomId not in self.roomDict:
             return False, 'Invalid room ID'
         res, msg = self.roomDict[roomId].addPlayer(id)
@@ -69,7 +66,16 @@ class RoomManager:
         if self.roomDict[roomId].isRunning():
             return False, 'The current game is running'
 
+        res, msg = self.roomDict[roomId].canStart()
+        if not res:
+            return False, msg
         self.roomDict[roomId].start()
+
+        msg = 'Game exited. Please reply "quit" to leave the room, and replay '\
+              '"start" to restart the game.'
+        for player in self.roomDict[roomId].playerList:
+            self.textManager.sendMessage(player, msg)
+
         return True, ''
 
     def getCurrentRooms(self):

@@ -19,14 +19,12 @@ class PigDice(App):
         ''' Return whether the program is running '''
         return self.__running
 
-    def start(self):
+    def _start(self):
         '''
         Run the app
         This method will execute the main logic of the app, including sending
         and receiving message through api and checking whether app should end
         '''
-        
-        self.__running = True
 
         # Send the basic information to the user and ask who start first
         msg = 'Welcome to the game of Pig. To win, '\
@@ -38,7 +36,6 @@ class PigDice(App):
         'you get 1, your turn is over, and you do not obtain '\
         'any points that turn.'
         self.textManager.sendMessage(self.playerList[0], msg)
-
         self.textManager.sendMessage(self.playerList[1], msg)
 
         # Ask user for each move
@@ -79,8 +76,6 @@ class PigDice(App):
             msg = "Tie game"
             self.textManager.sendMessage(self.playerList[0], msg)
             self.textManager.sendMessage(self.playerList[1], msg)
-
-        self.__running = False
 
     def canStart(self):
         ''' Check whether the app can start not '''

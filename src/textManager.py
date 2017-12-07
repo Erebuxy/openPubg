@@ -265,13 +265,14 @@ class TextManager:
             self.sendMessage(sender, 'Please resend the commnad with game name')
         roomId = self.roomManager.createRoom(sMsg[1])
         if roomId >= 0:
-            self.sendMessage(sender, 'Room %d Created! Reply start when you are '\
-                                     'ready' %(roomId))
+            self.sendMessage(sender, 'Room %d created! Reply "start" when you '
+                                     'are ready' %(roomId))
             res, msg = self.roomManager.addPlayer(sender, roomId)
             if not res:
                 self.sendMessage(sender, msg)
         else:
-            self.sendMessage(sender, 'Sorry, can\'t find given game')
+            self.sendMessage(sender, 'Sorry, can\'t find game. Please check your '\
+                                     'speeling.')
 
     def __do_start(self, sender):
         ''' Handle stating a room '''
