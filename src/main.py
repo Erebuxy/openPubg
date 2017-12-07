@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import argparse
 import logging
 import os
 import sys
@@ -11,10 +12,17 @@ from textManager import TextManager
 from playerManager import PlayerManager
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument('thread', type=int, default=5, nargs='?',
+                    help='The number of thread to run (default: 5)')
+
+args = parser.parse_args()
+
+
 def main():
 
     # Initiate the text manager
-    tManager = TextManager()
+    tManager = TextManager(worker=args.thread)
     if not tManager.emailLogin():
         return
     # Initiate the player manager
